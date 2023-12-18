@@ -19,6 +19,9 @@ namespace MyLiteDb
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<App>();
+            builder.Services.AddSingleton<AppShell>();
+            builder.Services.AddTransientWithShellRoute<MainPage, MainViewModel>($"//{nameof(MainPage)}");
 
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddSingleton<MainViewModel>();

@@ -46,7 +46,7 @@ public partial class App : Application
             },
         });
 
-        MainPage = service.GetService<MainPage>();
+        MainPage = service.GetService<AppShell>();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

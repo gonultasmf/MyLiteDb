@@ -17,6 +17,7 @@ public abstract class BasePage<TViewModel> : ContentPage where TViewModel : Base
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
+        Build();
 #if DEBUG
         HotReloadHandler.UpdateApplicationEvent += ReloadUI;
 #endif
