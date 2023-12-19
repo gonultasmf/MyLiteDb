@@ -47,32 +47,44 @@ public partial class MainPage(MainViewModel viewModel) : BasePage<MainViewModel>
                     {
                         CornerRadius = 20,
                         BorderColor = Colors.Aqua,
-                        Content = new VerticalStackLayout()
+                        Content = new Grid()
                         {
-                            Spacing = 0,
+                            ColumnDefinitions = Columns.Define(Stars(7), Stars(3)),
                             Children =
                             {
-                                new Label()
-                                    .Font(size: 17, bold: true)
-                                    .Top()
-                                    .SemanticHint("Burası Name")
-                                    .Bind(Label.TextProperty, static (Customer c) => c.Name, mode: BindingMode.OneTime),
-
-                                new Label()
+                                new VerticalStackLayout()
                                 {
-                                    LineBreakMode = LineBreakMode.TailTruncation,
-                                    MaxLines = 1
-                                }
-                                    .Font(size: 15)
-                                    .Top()
-                                    .SemanticHint("Burası Name")
-                                    .Bind(Label.TextProperty, static (Customer c) => c.Address, mode: BindingMode.OneTime),
+                                    Spacing = 0,
+                                    Children =
+                                    {
+                                        new Label()
+                                            .Font(size: 17, bold: true)
+                                            .Top()
+                                            .SemanticHint("Burası Name")
+                                            .Bind(Label.TextProperty, static (Customer c) => c.Name, mode: BindingMode.OneTime),
 
-                                new Label()
-                                    .Font(size: 13)
-                                    .Top()
-                                    .SemanticHint("Burası Name")
-                                    .Bind(Label.TextProperty, static (Customer c) => c.Age, mode: BindingMode.OneTime)
+                                        new Label()
+                                        {
+                                            LineBreakMode = LineBreakMode.TailTruncation,
+                                            MaxLines = 1
+                                        }
+                                            .Font(size: 15)
+                                            .Top()
+                                            .SemanticHint("Burası Name")
+                                            .Bind(Label.TextProperty, static (Customer c) => c.Address, mode: BindingMode.OneTime),
+
+                                        new Label()
+                                            .Font(size: 13)
+                                            .Top()
+                                            .SemanticHint("Burası Name")
+                                            .Bind(Label.TextProperty, static (Customer c) => c.Age, mode: BindingMode.OneTime)
+                                    }
+                                },
+
+                                new Image()
+                                    .Size(100, 75)
+                                    .Column(1)
+                                    .Bind(Image.SourceProperty, static (Customer c) => c.Image, mode: BindingMode.OneTime),
                             }
                         }
                         .Padding(10)

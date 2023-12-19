@@ -2,6 +2,7 @@
 
 public partial class MyPopup : Popup
 {
+    Entry imageEntry;
     public MyPopup(ICustomerService service, MainViewModel viewModel)
     {
         BindingContext = viewModel;
@@ -33,7 +34,8 @@ public partial class MyPopup : Popup
                                 .PlaceholderColor(Colors.DarkGray)
                                 .Bind(Entry.TextProperty, $"Customer.Name"),
 
-                            new Entry()
+                            new Editor()
+                                .MinHeight(75)
                                 .Placeholder("Address")
                                 .PlaceholderColor(Colors.DarkGray)
                                 .Bind(Entry.TextProperty, $"Customer.Address"),
@@ -42,6 +44,30 @@ public partial class MyPopup : Popup
                                 .Placeholder("Age")
                                 .PlaceholderColor(Colors.DarkGray)
                                 .Bind(Entry.TextProperty, $"Customer.Age"),
+
+                            new Grid()
+                            {
+                                ColumnDefinitions = Columns.Define(Stars(7), Stars(3)),
+                                Children =
+                                {
+                                    new Entry()
+                                    {
+                                        IsReadOnly= true,
+                                    }
+                                        .Assign(out imageEntry)
+                                        .Placeholder("Image Id")
+                                        .PlaceholderColor(Colors.DarkGray)
+                                        .Column(0)
+                                        .Bind(Entry.TextProperty, $"Customer.ImageId"),
+
+                                    new Button()
+                                        .Text("+")
+                                        .Font(size: 16, bold: true)
+                                        .Size(40,40)
+                                        .Column(1)
+                                        .Invoke(b => b.Clicked += U_Clicked),
+                                }
+                            },
 
                             new Button()
                                 .Text("KAYDET")
@@ -55,6 +81,19 @@ public partial class MyPopup : Popup
                 .Width(200)
             }
         };
+    }
+
+    private async void U_Clicked(object? sender, EventArgs e)
+    {
+        var foto = await MediaPicker.PickPhotoAsync();
+
+        if (foto != null)
+        {
+            var stream = await foto.OpenReadAsync();
+            var result = ((MainViewModel)BindingContext).UploadFile(foto.FileName, stream);
+            imageEntry.Text = result;
+            ((MainViewModel)BindingContext).Customer.ImageId = result;
+        }
     }
 
     private async void B_Clicked(object? sender, EventArgs e)

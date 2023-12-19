@@ -75,9 +75,32 @@ public partial class MainViewModel : BaseViewModel
             GetInfoCustomersList();
     });
 
+    public string UploadFile(string fileName, Stream stream)
+    {
+        var memoryStream = new MemoryStream();
+        stream.CopyTo(memoryStream);
+        var result = _customerService.UploadFile(fileName, memoryStream.ToArray());
+
+        return result;
+    }
+
+    public ImageSource DownloadFile(string id)
+    {
+        var result = _customerService.DownloadFile(id);
+        var stream = new MemoryStream(result);
+        ImageSource imageSource = ImageSource.FromStream(() => stream);
+
+        return imageSource;
+    }
+
     private void GetInfoCustomersList()
     {
         Customers = _customerService.GetAll();
         Count = _customerService.Count();
+
+        foreach (var item in Customers)
+        {
+            item.Image = DownloadFile(item.ImageId);
+        }
     }
 }

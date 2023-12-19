@@ -7,7 +7,7 @@ public class MyContext
     public LiteDatabase GetLiteDB()
     {
         var path = FileSystem.AppDataDirectory;
-        var fullPath = Path.Combine(path, "MyLiteDb.db");
+        var fullPath = Path.Combine(path, "MyLiteDb_1.db");
         _db = new LiteDatabase(fullPath);
 
         return _db;
